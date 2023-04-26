@@ -216,8 +216,7 @@ button span:after {
     display: block;
 }
 
-.btnLoadMore:hover, 
-.btnLoadMore:focus{
+.btnLoadMore:hover{
     border: 2px solid #ec3131;
     box-shadow: #ec3131;
 }
