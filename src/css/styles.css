@@ -68,8 +68,9 @@ input[type="text"] {
   }
   
 input[type="text"]::placeholder {
-    color: #ec3131;
+    color: #faf7f7;
   }
+
 
 .tb {
     display: table;
