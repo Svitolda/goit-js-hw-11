@@ -57,7 +57,7 @@ function fetchImgs() {
         return;
       }
 
-    //   showLoadMoreBtn();
+      showLoadMoreBtn();
 
       if (data.hits.length === 0 && api.page !== 1) {
         Notify.failure(
@@ -80,7 +80,7 @@ function fetchImgs() {
         Notify.success(`Hooray! We found ${data.totalHits} images.`);
         
       }
-        showLoadMoreBtn();
+        // showLoadMoreBtn();
       gallery.insertAdjacentHTML(
         'beforeend', cardsMarkup(data.hits)
       );
