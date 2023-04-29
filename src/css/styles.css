@@ -24,9 +24,6 @@ img {
     height: 200px;
 }
 
-form {
-    height: 96px;
-}
 
 label {
     position: absolute;
@@ -44,7 +41,7 @@ label {
 
 .cover{
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 0;
     right: 0;
     width: 550px;
