@@ -20,28 +20,29 @@ btnLoadMore.addEventListener('click', fetchImgs);
 function onFormChange(e) {
     e.preventDefault();
 
-    const currentSearch = e.target.elements.searchQuery.value.trim();
-
+    const currentSearch = e.currentTarget.elements.searchQuery.value.trim();
+    api.query = currentSearch;
     // console.log(e.target);
     if (currentSearch !== api.query) {
         gallery.innerHTML = '';
         api.resetPage();
     }
-
-    api.query = currentSearch;
+    
     fetchImgs();
 
 }
 
 function fetchImgs(){
-    api.fetchImg().then(data => {
+    api
+    .fetchImg()
+    .then(data => {
         if (data.hits.length === 0 && api.page !== 1) {
             hideLoadMoreBtn();
         Notiflix.Notify.failure('We are sorry, but you have reached the end of search results.');
         return;
         } 
         if (data.hits.length === 0) {
-            if(loadmoreBtn.classList.has('is-hidden')){
+            if(!loadmoreBtn.classList.containes('is-hidden')){
                 hideLoadMoreBtn();
             }
         Notiflix.Notify.info('Sorry, there are no images matching your search query. Please try again.');
@@ -58,15 +59,14 @@ function fetchImgs(){
             Notiflix.Notify.failure('We are sorry, but you have reached the end of search results.');
 
         hideLoadMoreBtn();
-        return;
+        
         }
         if (api.page === 1) {
             Notiflix.Notify.success('Hooray! We found ${data.totalHits} images.')
         }
         
         gallery.insertAdjacentHTML(
-            'beforeend',
-            cardsMarkup(data.hits)
+            'beforeend', cardsMarkup(data.hits)
           );
 
         const lightbox = new SimpleLightbox('.gallery a',{
@@ -92,7 +92,7 @@ function cardsMarkup(data){
         views,
         comments,
         downloads,
-    }) => {
+    }) => 
            `<div class="photo-card">
             <a href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy"/></a>
             <div class="info">
@@ -110,15 +110,15 @@ function cardsMarkup(data){
                 </p>
             </div>
         </div>`
-    }).join('');
+    ).join('');
 }
 
 function showLoadMoreBtn() {
-    refs.loadmoreBtn.classList.remove('hide');
+    refs.loadmoreBtn.classList.remove('is-hidden');
   }
   
 function hideLoadMoreBtn() {
-refs.loadmoreBtn.classList.add('hide');
+refs.loadmoreBtn.classList.add('is-hidden');
 }
 
 function smoothScrool() {
