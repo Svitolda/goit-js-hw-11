@@ -50,6 +50,8 @@ function fetchImgs() {
           hideLoadMoreBtn();
         }
 
+        hideLoadMoreBtn();
+
         Notify.info(
           'Sorry, there are no images matching your search query. Please try again.'
         );
@@ -57,7 +59,7 @@ function fetchImgs() {
         return;
       }
 
-      showLoadMoreBtn();
+    //   showLoadMoreBtn();
 
       if (data.hits.length === 0 && api.page !== 1) {
         Notify.failure(
@@ -78,7 +80,7 @@ function fetchImgs() {
 
       if (api.page === 1) {
         Notify.success(`Hooray! We found ${data.totalHits} images.`);
-        
+        showLoadMoreBtn();
       }
         // showLoadMoreBtn();
       gallery.insertAdjacentHTML(
