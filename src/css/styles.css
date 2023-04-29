@@ -40,17 +40,18 @@ label {
 }
 
 .cover{
-    position: absolute;
+    position: inherit;
     top: 40%;
     left: 0;
     right: 0;
     width: 550px;
     padding: 35px;
-    margin: -83px auto 0 auto;
+    margin: 0 auto 200px;
     background-color: #ff7575;
     border-radius: 20px;
     box-shadow: 0 10px 40px #ff7c7c, 0 0 0 20px #ffffffeb;
     transform: scale(0.6);
+    /* position: inherit; */
 }
 
 .search-form {
@@ -216,6 +217,38 @@ button span:after {
 .btnLoadMore:hover{
     border: 2px solid #ec3131;
     box-shadow: #ec3131;
+}
+
+.info {
+  display: flex;
+
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-item {
+  text-align: center;
+}
+
+.photo-card {
+  margin-right: 20px;
+  margin-bottom: 20px;
+
+  flex-basis: calc((100% - 60) / 4);
+
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
+    1px 4px 6px rgba(0, 0, 0, 0.16);
+}
+
+.photo-card:nth-child(4n) {
+  margin-right: 0px;
+}
+
+.photo-card:nth-last-child(-n + 4) {
+  margin-bottom: 0px;
 }
 
 

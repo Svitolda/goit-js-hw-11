@@ -1,90 +1,242 @@
-import Notiflix from 'notiflix';
+// import Notiflix from 'notiflix';
+// import ImgApiService from './img-API';
+// import debounce from 'lodash.debounce';
+// // Описаний в документації
+// import SimpleLightbox from "simplelightbox";
+// // Додатковий імпорт стилів
+// import "simplelightbox/dist/simple-lightbox.min.css";
+
+// const DEBOUNCE_DELAY = 1000;
+
+// const form = document.querySelector('.search-form');
+// const gallery = document.querySelector('.gallery');
+// const btnLoadMore = document.querySelector('.btnLoadMore');
+
+// const api = new ImgApiService();
+
+// form.addEventListener('submit', debounce(onFormChange, DEBOUNCE_DELAY));
+// btnLoadMore.addEventListener('click', fetchImgs);
+
+// function onFormChange(e) {
+//     e.preventDefault();
+
+//     const currentSearch = e.currentTarget.elements.searchQuery.value.trim();
+//     api.query = currentSearch;
+//     // console.log(e.target);
+//     if (currentSearch !== api.query) {
+//         gallery.innerHTML = '';
+//         api.resetPage();
+//     }
+    
+//     fetchImgs();
+
+// }
+
+// function fetchImgs(){
+//     api
+//     .fetchImg()
+//     .then(data => {
+//         if (data.hits.length === 0 && api.page !== 1) {
+//             hideLoadMoreBtn();
+//         Notiflix.Notify.failure('We are sorry, but you have reached the end of search results.');
+//         return;
+//         } 
+//         if (data.hits.length === 0) {
+//             if(!loadmoreBtn.classList.containes('is-hidden')){
+//                 hideLoadMoreBtn();
+//             }
+//         Notiflix.Notify.info('Sorry, there are no images matching your search query. Please try again.');
+//         return;
+//         }
+//         showLoadMoreBtn();
+//         if (data.hits.length === 0 && api.page !== 1) {
+//             Notiflix.Notify.failure('We are sorry, but you have reached the end of search results.');
+
+//         hideLoadMoreBtn();
+//             return;
+//         }
+//         if (40 * api.page > data.totalHits && api.page !== 1) {
+//             Notiflix.Notify.failure('We are sorry, but you have reached the end of search results.');
+
+//         hideLoadMoreBtn();
+        
+//         }
+//         if (api.page === 1) {
+//             Notiflix.Notify.success('Hooray! We found ${data.totalHits} images.')
+//         }
+        
+//         gallery.insertAdjacentHTML(
+//             'beforeend', cardsMarkup(data.hits)
+//           );
+
+//         const lightbox = new SimpleLightbox('.gallery a',{
+//             captionDelay: 250,
+//             captionData: 'alt',
+//         });
+
+//         lightbox.refresh();
+
+//         api.incrementPage();
+
+//         smoothScrool()
+//     })
+//     .catch(console.log)
+// }
+
+// function cardsMarkup(data){
+//     return data.map(({
+//         webformatURL,
+//         largeImageURL,
+//         tags,
+//         likes,
+//         views,
+//         comments,
+//         downloads,
+//     }) => 
+//            `<div class="photo-card">
+//             <a href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy"/></a>
+//             <div class="info">
+//                 <p class="info-item">
+//                     <b>Likes <br> ${likes}</b>
+//                 </p>
+//                 <p class="info-item">
+//                     <b>Views <br> ${views}</b>
+//                 </p>
+//                 <p class="info-item">
+//                     <b>Comments <br> ${comments}</b>
+//                 </p>
+//                 <p class="info-item">
+//                     <b>Downloads <br> ${downloads}</b>
+//                 </p>
+//             </div>
+//         </div>`
+//     ).join('');
+// }
+
+// function showLoadMoreBtn() {
+//     refs.loadmoreBtn.classList.remove('is-hidden');
+//   }
+  
+// function hideLoadMoreBtn() {
+// refs.loadmoreBtn.classList.add('is-hidden');
+// }
+
+// function smoothScrool() {
+//     const { height: cardHeight } = document
+//       .querySelector('.gallery')
+//       .firstElementChild.getBoundingClientRect();
+  
+//     window.scrollBy({
+//       top: cardHeight * 2,
+//       behavior: 'smooth',
+//     });
+//   }
+
+import { Notify } from 'notiflix';
 import ImgApiService from './img-API';
-import debounce from 'lodash.debounce';
 // Описаний в документації
-import SimpleLightbox from "simplelightbox";
+import simpleLightbox from "simplelightbox";
 // Додатковий імпорт стилів
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-const DEBOUNCE_DELAY = 1000;
 
 const form = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');
-const btnLoadMore = document.querySelector('.btnLoadMore');
+const loadmoreBtn = document.querySelector('.btnLoadMore');
 
 const api = new ImgApiService();
 
-form.addEventListener('submit', debounce(onFormChange, DEBOUNCE_DELAY));
-btnLoadMore.addEventListener('click', fetchImgs);
+form.addEventListener('submit', onFormChange);
+
+loadmoreBtn.addEventListener('click', fetchImgs);
 
 function onFormChange(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const currentSearch = e.currentTarget.elements.searchQuery.value.trim();
-    api.query = currentSearch;
-    // console.log(e.target);
-    if (currentSearch !== api.query) {
-        gallery.innerHTML = '';
-        api.resetPage();
-    }
-    
-    fetchImgs();
+  const currentSearch = e.currentTarget.elements.searchQuery.value;
 
+  if (currentSearch !== api.query) {
+    gallery.innerHTML = '';
+    api.resetPage();
+  }
+
+  api.query = currentSearch;
+
+  fetchImgs();
 }
 
-function fetchImgs(){
-    api
+function fetchImgs() {
+  api
     .fetchImg()
     .then(data => {
-        if (data.hits.length === 0 && api.page !== 1) {
-            hideLoadMoreBtn();
-        Notiflix.Notify.failure('We are sorry, but you have reached the end of search results.');
+      if (data.hits.length === 0 && api.page !== 1) {
+        hideLoadMoreBtn();
+
+        Notify.failure(
+          'We are sorry, but you have reached the end of search results.'
+        );
+
         return;
-        } 
-        if (data.hits.length === 0) {
-            if(!loadmoreBtn.classList.containes('is-hidden')){
-                hideLoadMoreBtn();
-            }
-        Notiflix.Notify.info('Sorry, there are no images matching your search query. Please try again.');
-        return;
+      }
+
+      if (data.hits.length === 0) {
+        if (!refs.loadmoreBtn.classList.contains('hide')) {
+          hideLoadMoreBtn();
         }
+
+        Notify.info(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+
+        return;
+      }
+
+    //   showLoadMoreBtn();
+
+      if (data.hits.length === 0 && api.page !== 1) {
+        Notify.failure(
+          'We are sorry, but you have reached the end of search results.'
+        );
+
+        hideLoadMoreBtn();
+
+        return;
+      }
+      if (40 * api.page > data.totalHits && api.page !== 1) {
+        Notify.failure(
+          'We are sorry, but you have reached the end of search results.'
+        );
+
+        hideLoadMoreBtn();
+      }
+
+      if (api.page === 1) {
+        Notify.success(`Hooray! We found ${data.totalHits} images.`);
         showLoadMoreBtn();
-        if (data.hits.length === 0 && api.page !== 1) {
-            Notiflix.Notify.failure('We are sorry, but you have reached the end of search results.');
+      }
 
-        hideLoadMoreBtn();
-            return;
-        }
-        if (40 * api.page > data.totalHits && api.page !== 1) {
-            Notiflix.Notify.failure('We are sorry, but you have reached the end of search results.');
+      gallery.insertAdjacentHTML(
+        'beforeend', cardsMarkup(data.hits)
+      );
 
-        hideLoadMoreBtn();
-        
-        }
-        if (api.page === 1) {
-            Notiflix.Notify.success('Hooray! We found ${data.totalHits} images.')
-        }
-        
-        gallery.insertAdjacentHTML(
-            'beforeend', cardsMarkup(data.hits)
-          );
+      const lightbox = new simpleLightbox('.gallery a', {
+        captionDelay: 250,
+        captionsData: 'alt',
+      });
 
-        const lightbox = new SimpleLightbox('.gallery a',{
-            captionDelay: 250,
-            captionData: 'alt',
-        });
+      lightbox.refresh();
 
-        lightbox.refresh();
+      api.incrementPage();
 
-        api.incrementPage();
-
-        smoothScrool()
+      smoothScrool();
     })
-    .catch(console.log)
+    .catch(console.log);
 }
 
-function cardsMarkup(data){
-    return data.map(({
+function cardsMarkup(cards) {
+  return cards
+    .map(
+      ({
         webformatURL,
         largeImageURL,
         tags,
@@ -92,33 +244,34 @@ function cardsMarkup(data){
         views,
         comments,
         downloads,
-    }) => 
-           `<div class="photo-card">
-            <a href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy"/></a>
-            <div class="info">
-                <p class="info-item">
-                    <b>Likes <br> ${likes}</b>
-                </p>
-                <p class="info-item">
-                    <b>Views <br> ${views}</b>
-                </p>
-                <p class="info-item">
-                    <b>Comments <br> ${comments}</b>
-                </p>
-                <p class="info-item">
-                    <b>Downloads <br> ${downloads}</b>
-                </p>
-            </div>
+      }) =>
+        `<div class="photo-card">
+                <a href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy"/></a>
+                <div class="info">
+                    <p class="info-item">
+                        <b>Likes <br> ${likes}</b>
+                    </p>
+                    <p class="info-item">
+                        <b>Views <br> ${views}</b>
+                    </p>
+                    <p class="info-item">
+                        <b>Comments <br> ${comments}</b>
+                    </p>
+                    <p class="info-item">
+                        <b>Downloads <br> ${downloads}</b>
+                    </p>
+                </div>
         </div>`
-    ).join('');
+    )
+    .join('');
 }
 
 function showLoadMoreBtn() {
-    refs.loadmoreBtn.classList.remove('is-hidden');
+    loadmoreBtn.classList.remove('is-hidden');
   }
   
 function hideLoadMoreBtn() {
-refs.loadmoreBtn.classList.add('is-hidden');
+    loadmoreBtn.classList.add('is-hidden');
 }
 
 function smoothScrool() {
