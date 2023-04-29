@@ -38,8 +38,8 @@ label {
     overflow: hidden;
 }
 
-.hide {
-    display: none;
+.is-hidden{
+  visibility: hidden;
 }
 
 .cover{
@@ -220,3 +220,5 @@ button span:after {
     border: 2px solid #ec3131;
     box-shadow: #ec3131;
 }
+
+
