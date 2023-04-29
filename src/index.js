@@ -46,7 +46,7 @@ function fetchImgs() {
       }
 
       if (data.hits.length === 0) {
-        if (loadmoreBtn.classList.contains('is-hidden')) {
+        if (!loadmoreBtn.classList.contains('is-hidden')) {
           hideLoadMoreBtn();
         }
 
@@ -78,9 +78,9 @@ function fetchImgs() {
 
       if (api.page === 1) {
         Notify.success(`Hooray! We found ${data.totalHits} images.`);
-        showLoadMoreBtn();
+        
       }
-
+        showLoadMoreBtn();
       gallery.insertAdjacentHTML(
         'beforeend', cardsMarkup(data.hits)
       );
