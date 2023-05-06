@@ -46,9 +46,9 @@ function fetchImgs() {
       }
 
       if (data.hits.length === 0) {
-        if (!loadmoreBtn.classList.contains('is-hidden')) {
-          hideLoadMoreBtn();
-        }
+        // if (!loadmoreBtn.classList.contains('is-hidden')) {
+        //   hideLoadMoreBtn();
+        // }
 
         hideLoadMoreBtn();
 
@@ -82,7 +82,7 @@ function fetchImgs() {
         Notify.success(`Hooray! We found ${data.totalHits} images.`);
         showLoadMoreBtn();
       }
-        // showLoadMoreBtn();
+      
       gallery.insertAdjacentHTML(
         'beforeend', cardsMarkup(data.hits)
       );
